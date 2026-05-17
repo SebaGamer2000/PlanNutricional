@@ -21,12 +21,12 @@ public class DataInitializer implements CommandLineRunner {
         }
         log.info("No hay datos guardados");
 
-        planRepository.save(
+       /* planRepository.save(
                 new PlanNutricional(null, "Mantenimiento Saludable", 2000, 150, 200, 65, "Almuerzo", "Pechuga de pollo a la plancha (200g), taza de arroz integral y ensalada mixta de lechuga y tomate con una cucharada de aceite de oliva." )
         );
 
         planRepository.save(
                 new PlanNutricional(null, "Volumen Limpio", 3200, 200, 450, 80,"Post-Entrenamiento", "Batido de proteina de suero de leche, dos platanos grandes, 100g de avena instantanea mezclada con yogur griego descremado")
-        );
+        );*/
     }
 }
