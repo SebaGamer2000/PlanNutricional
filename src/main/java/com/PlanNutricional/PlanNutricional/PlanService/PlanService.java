@@ -2,10 +2,14 @@ package com.PlanNutricional.PlanNutricional.PlanService;
 
 import com.PlanNutricional.PlanNutricional.PlanDTO.PlanRequestDTO;
 import com.PlanNutricional.PlanNutricional.PlanDTO.PlanResponseDTO;
+import com.PlanNutricional.PlanNutricional.PlanDTO.UsuarioDTO;
 import com.PlanNutricional.PlanNutricional.PlanNutricional.PlanNutricional;
 import com.PlanNutricional.PlanNutricional.PlanRepository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +20,9 @@ import java.util.stream.Collectors;
 public class PlanService {
     private final PlanRepository planRepository;
 
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
     private PlanResponseDTO maptoDTO(PlanNutricional planNutricional){
         return new PlanResponseDTO(
                 planNutricional.getId(),
@@ -25,7 +32,8 @@ public class PlanService {
                 planNutricional.getCarbohidratos(),
                 planNutricional.getGrasas(),
                 planNutricional.getMomento(),
-                planNutricional.getAlimentos()
+                planNutricional.getAlimentos(),
+                planNutricional.getIdUsuario()
         );
     }
     public List<PlanResponseDTO> findAll(){
@@ -37,6 +45,17 @@ public class PlanService {
     }
 
     public PlanResponseDTO guardar(PlanRequestDTO dto){
+
+        UsuarioDTO usuarioDTO = webClientBuilder.build()
+                .get()
+                .uri("http://USUARIO/gym/socios/" + dto.getIdUsuario())
+                .retrieve()
+                .onStatus(status -> status.is4xxClientError(), response ->
+                        Mono.error(new RuntimeException("El socio con id " + dto.getIdUsuario() + " no existe."))
+                )
+                .bodyToMono(UsuarioDTO.class)
+                .block();
+
         PlanNutricional planNutricional = new PlanNutricional(
                 null,
                 dto.getNombrePlan(),
@@ -45,7 +64,8 @@ public class PlanService {
                 dto.getCarbohidratos(),
                 dto.getGrasas(),
                 dto.getMomento(),
-                dto.getAlimentos()
+                dto.getAlimentos(),
+                dto.getIdUsuario()
         );
         return maptoDTO(planRepository.save(planNutricional));
     }

@@ -36,4 +36,7 @@ public class PlanRequestDTO {
     @NotBlank(message = "Ingrese los alimentos correspondientes al plan")
     private String alimentos;
 
+    @NotNull(message = "El id de usuario no puede ser nulo")
+    private Long idUsuario;
+
 }

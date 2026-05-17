@@ -17,4 +17,5 @@ public class PlanResponseDTO {
     private Integer grasas;
     private String momento;
     private String alimentos;
+    private Long idUsuario;
 }

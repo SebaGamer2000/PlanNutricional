@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "Planes Nutricionales")
+@Table(name = "Planes_Nutricionales")
 public class PlanNutricional {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -35,5 +35,8 @@ public class PlanNutricional {
 
     @Column (nullable = false)
     private String alimentos;
+
+    @Column (nullable = false)
+    private Long idUsuario;
 
 }
