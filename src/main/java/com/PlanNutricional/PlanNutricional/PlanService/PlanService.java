@@ -6,6 +6,8 @@ import com.PlanNutricional.PlanNutricional.PlanDTO.UsuarioDTO;
 import com.PlanNutricional.PlanNutricional.PlanNutricional.PlanNutricional;
 import com.PlanNutricional.PlanNutricional.PlanRepository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 public class PlanService {
     private final PlanRepository planRepository;
+    private static final Logger log = LoggerFactory.getLogger(PlanService.class);
 
     @Autowired
     private WebClient.Builder webClientBuilder;
@@ -45,6 +48,7 @@ public class PlanService {
     }
 
     public PlanResponseDTO guardar(PlanRequestDTO dto){
+        log.info("Guardando Plan Nutricional");
 
         UsuarioDTO usuarioDTO = webClientBuilder.build()
                 .get()
@@ -67,6 +71,7 @@ public class PlanService {
                 dto.getAlimentos(),
                 dto.getIdUsuario()
         );
+        log.info("Plan Nutricional guardado correctamente");
         return maptoDTO(planRepository.save(planNutricional));
     }
 
@@ -79,8 +84,11 @@ public class PlanService {
             existente.setGrasas(dto.getGrasas());
             existente.setMomento(dto.getMomento());
             existente.setAlimentos(dto.getAlimentos());
+            log.info("Plan actualizado correctamente");
             return maptoDTO(planRepository.save(existente));
         });
     }
-    public void eliminar(Long id){planRepository.deleteById(id);}
+    public void eliminar(Long id){planRepository.deleteById(id);}{
+        log.info("Plan Nutricional eliminado correctamente");
+    }
 }
