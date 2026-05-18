@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
     private final PlanRepository planRepository;
-
+    //Mensajes para saber si hay datos cargados
     @Override
     public void run(String... args){
         if (planRepository.count() > 0){
@@ -20,7 +20,7 @@ public class DataInitializer implements CommandLineRunner {
             return;
         }
         log.info("No hay datos guardados");
-
+    //Datos de prueba
        /* planRepository.save(
                 new PlanNutricional(null, "Mantenimiento Saludable", 2000, 150, 200, 65, "Almuerzo", "Pechuga de pollo a la plancha (200g), taza de arroz integral y ensalada mixta de lechuga y tomate con una cucharada de aceite de oliva." )
         );

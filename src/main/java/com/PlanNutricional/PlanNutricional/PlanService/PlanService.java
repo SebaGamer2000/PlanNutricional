@@ -39,14 +39,15 @@ public class PlanService {
                 planNutricional.getIdUsuario()
         );
     }
+    //Listar todos los planes
     public List<PlanResponseDTO> findAll(){
         return planRepository.findAll().stream().map(this::maptoDTO).collect(Collectors.toList());
     }
-
+    //Buscar plan por id
     public Optional<PlanResponseDTO> findById(Long id){
         return planRepository.findById(id).map(this::maptoDTO);
     }
-
+    //Guardar plan
     public PlanResponseDTO guardar(PlanRequestDTO dto){
         log.info("Guardando Plan Nutricional");
 
@@ -74,7 +75,7 @@ public class PlanService {
         log.info("Plan Nutricional guardado correctamente");
         return maptoDTO(planRepository.save(planNutricional));
     }
-
+    //Actualizar plan
     public Optional<PlanResponseDTO> actualizar(Long id, PlanRequestDTO dto){
         return planRepository.findById(id).map(existente ->{
             existente.setNombrePlan(dto.getNombrePlan());
@@ -88,6 +89,7 @@ public class PlanService {
             return maptoDTO(planRepository.save(existente));
         });
     }
+    //Eliminar plan
     public void eliminar(Long id){planRepository.deleteById(id);}{
         log.info("Plan Nutricional eliminado correctamente");
     }
