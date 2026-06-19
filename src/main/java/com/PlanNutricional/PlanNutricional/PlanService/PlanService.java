@@ -53,7 +53,7 @@ public class PlanService {
 
         UsuarioDTO usuarioDTO = webClientBuilder.build()
                 .get()
-                .uri("http://USUARIO/gym/socios/" + dto.getIdUsuario())
+                .uri("https://ms-usuarios-n9lf.onrender.com/gym/socios/" + dto.getIdUsuario())
                 .retrieve()
                 .onStatus(status -> status.is4xxClientError(), response ->
                         Mono.error(new RuntimeException("El socio con id " + dto.getIdUsuario() + " no existe."))
